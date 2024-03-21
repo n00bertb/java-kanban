@@ -39,7 +39,7 @@ jobs:
       - name: Build application
         run: |
           find ./src -type f -name "*.java" > sources.txt
-          javac -d out -cp ./lib/*:./src @sources.txt
+          javac -d out -cp ./tests/lib/junit-platform-console-standalone-1.9.3.jar:./tests/lib/gson-2.10.1.jar:./src @sources.txt
 
       - name: Build tests
         run: |
