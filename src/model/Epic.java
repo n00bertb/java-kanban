@@ -2,15 +2,17 @@ package model;
 
 import java.util.ArrayList;
 
-public class Epic extends Task{
+public class Epic extends Task {
     private ArrayList<Integer> subTaskIds = new ArrayList<>();
+
     public Epic(String name, String description) {
-        super(name, description,Status.NEW);
+        super(name, description, Status.NEW);
     }
 
     public void addSubtask(int idSubtask) {
         subTaskIds.add(idSubtask);
     }
+
     public void clearSubtasks() {
         subTaskIds.clear();
     }
