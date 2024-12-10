@@ -5,19 +5,19 @@ import model.*;
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 
 public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager;
+    private final HashMap<Integer, Epic> epics = new HashMap<>();
+    private final HashMap<Integer, SubTask> subtasks = new HashMap<>();
+    private final HashMap<Integer, Task> tasks = new HashMap<>();
+    private int taskId = 0;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
     }
-
-    private int taskId = 0;
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, SubTask> subtasks = new HashMap<>();
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
 
     public int getNewTaskId() {
         taskId++;
@@ -71,6 +71,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void clearTaskList() {
+        Set<Integer> setKeys = tasks.keySet();
+        for (Integer key : setKeys) {
+            historyManager.remove(key);
+        }
         tasks.clear();
     }
 
