@@ -11,6 +11,7 @@ import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
+
     public static void main(String[] args) {
         File file = new File("src/resources/tasks.csv");
 
@@ -21,7 +22,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
 
         Task task1 = new Task("Task 1", "Description of task 1");
-        Task task2 = new Task("Task 2", "Description of task 2",666,Status.IN_PROGRESS);
+        Task task2 = new Task("Task 2", "Description of task 2", 666, Status.IN_PROGRESS);
         manager.createTask(task1);
         manager.createTask(task2);
 
@@ -29,9 +30,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         manager.createEpic(epic1);
 
         SubTask subtask1 = new SubTask("Subtask 1", "Description of subtask 1", epic1.getId());
-        SubTask subtask2 = new SubTask("Subtask 2", "Description of subtask 2",444,Status.DONE, epic1.getId());
-        manager.createSubtask(subtask1,epic1.getId());
-        manager.createSubtask(subtask2,epic1.getId());
+        SubTask subtask2 = new SubTask("Subtask 2", "Description of subtask 2", 444, Status.DONE, epic1.getId());
+        manager.createSubtask(subtask1, epic1.getId());
+        manager.createSubtask(subtask2, epic1.getId());
 
         System.out.println("Данные начального менеджера:");
         System.out.println("Задачи: " + manager.getTasks());
@@ -87,6 +88,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String epicId = (task instanceof SubTask) ? String.valueOf(((SubTask) task).getEpicID()) : "";
         return String.join(",", String.valueOf(task.getId()), type.toString(), task.getName(), task.getStatus().toString(), task.getDescription(), epicId);
     }
+
     //судя по всему придется добавить конструкторы для эпика и сабтаски чтобы всасывался их статус
     private static Task fromString(String value) {
         String[] fields = value.split(",");
@@ -98,7 +100,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
         switch (type) {
             case TASK:
-                return new Task(name, description, id , status);
+                return new Task(name, description, id, status);
             case EPIC:
                 return new Epic(name, description, id, status);
             case SUBTASK:
@@ -153,8 +155,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void createSubtask(SubTask subtask,int epicId) {
-        super.createSubtask(subtask,epicId);
+    public void createSubtask(SubTask subtask, int epicId) {
+        super.createSubtask(subtask, epicId);
         save();
     }
 
