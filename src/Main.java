@@ -10,7 +10,7 @@ public class Main {
 
         TaskManager manager = Managers.getDefault();
         Task buyFood = new Task("Купить продукты", "Не забыть яблоки и кортошку");
-        System.out.println("тут у нас ид таски при создании без его указания "+buyFood.getId());
+        System.out.println("тут у нас ид таски при создании без его указания " + buyFood.getId());
         manager.createTask(buyFood);
         System.out.println(manager.getTasks() + "\n");
 
@@ -24,10 +24,10 @@ public class Main {
 
         System.out.println("Создаем новый Эпик");
         Epic compliteSprintFiveFinalTask = new Epic("Сдать задание пятого спринта", "Нужно успеть до конца каникул");
-        System.out.println("тут у нас нет ид эпика при создании без его указания "+compliteSprintFiveFinalTask.getId());
+        System.out.println("тут у нас нет ид эпика при создании без его указания " + compliteSprintFiveFinalTask.getId());
 
-        Epic compliteSprintFiveFinalTask2 = new Epic("Сдать задание пятого спринта", "Нужно успеть до конца каникул",777,Status.NEW);
-        System.out.println("тут у нас есть ид эпика при создании без его указания "+compliteSprintFiveFinalTask2.getId());
+        Epic compliteSprintFiveFinalTask2 = new Epic("Сдать задание пятого спринта", "Нужно успеть до конца каникул", 777, Status.NEW);
+        System.out.println("тут у нас есть ид эпика при создании без его указания " + compliteSprintFiveFinalTask2.getId());
 
         manager.createEpic(compliteSprintFiveFinalTask);
         System.out.println(manager.getEpics());
