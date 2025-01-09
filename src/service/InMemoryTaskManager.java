@@ -24,18 +24,18 @@ public class InMemoryTaskManager implements TaskManager {
     //создаем сущности
     @Override
     public void createEpic(Epic epic) {
-        if(epic.getId()==0){ //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
+        if (epic.getId() == 0) { //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
             int id = getNewTaskId();
             epic.setId(id);
             epics.put(id, epic);
         } else {
-            epics.put(epic.getId(),epic);
+            epics.put(epic.getId(), epic);
         }
     }
 
     @Override
     public void createSubtask(SubTask subtask, int epicId) {
-        if(subtask.getId()==0){ //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
+        if (subtask.getId() == 0) { //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
             if (epics.containsKey(epicId)) {
                 int id = getNewTaskId();
                 subtask.setId(id);
@@ -56,7 +56,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void createTask(Task task) {
-        if (task.getId()==0){ //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
+        if (task.getId() == 0) { //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
             int id = getNewTaskId();
             task.setId(id);
             tasks.put(id, task);
