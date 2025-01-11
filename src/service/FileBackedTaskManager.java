@@ -22,15 +22,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
 
         Task task1 = new Task("Task 1", "Description of task 1");
-        Task task2 = new Task("Task 2", "Description of task 2", 666, Status.IN_PROGRESS);
+        Task task2 = new Task("Task 2", "Description of task 2", Status.IN_PROGRESS);
         manager.createTask(task1);
         manager.createTask(task2);
+
 
         Epic epic1 = new Epic("Epic 1", "Description of epic 1");
         manager.createEpic(epic1);
 
         SubTask subtask1 = new SubTask("Subtask 1", "Description of subtask 1", epic1.getId());
-        SubTask subtask2 = new SubTask("Subtask 2", "Description of subtask 2", 444, Status.DONE, epic1.getId());
+        SubTask subtask2 = new SubTask("Subtask 2", "Description of subtask 2", Status.DONE, epic1.getId());
+
         manager.createSubtask(subtask1, epic1.getId());
         manager.createSubtask(subtask2, epic1.getId());
 
@@ -85,11 +87,10 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } else if (task instanceof SubTask) {
             type = TaskType.SUBTASK;
         }
-        String epicId = (task instanceof SubTask) ? String.valueOf(((SubTask) task).getEpicID()) : "";
+        String epicId = (task instanceof SubTask) ? String.valueOf(((SubTask) task).getEpicID()) : null;
         return String.join(",", String.valueOf(task.getId()), type.toString(), task.getName(), task.getStatus().toString(), task.getDescription(), epicId);
     }
 
-    //судя по всему придется добавить конструкторы для эпика и сабтаски чтобы всасывался их статус
     private static Task fromString(String value) {
         String[] fields = value.split(",");
         int id = Integer.parseInt(fields[0]);
@@ -115,27 +116,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         FileBackedTaskManager manager = new FileBackedTaskManager(file);
         try {
             List<String> lines = Files.readAllLines(file.toPath());
-
             for (String line : lines.subList(1, lines.size())) {
                 Task task = fromString(line);
                 if (task instanceof Epic) {
                     manager.createEpic((Epic) task);
-                }
-            }
-
-            for (String line : lines.subList(1, lines.size())) {
-                Task task = fromString(line);
-                if (task instanceof SubTask) {
+                } else if (task instanceof SubTask) {
                     manager.createSubtask((SubTask) task, ((SubTask) task).getEpicID());
-                }
-            }
-
-            for (String line : lines.subList(1, lines.size())) {
-                Task task = fromString(line);
-                if (task instanceof Task && !(task instanceof Epic) && !(task instanceof SubTask)) {
+                } else {
                     manager.createTask(task);
                 }
             }
+
         } catch (IOException e) {
             throw new ManagerSaveException("Ошибка загрузки из файла", e);
         }
@@ -144,20 +135,32 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     @Override
     public void createTask(Task task) {
-        super.createTask(task);
-        save();
+        if (task.getId() == 0) {
+            super.createTask(task);
+            save();
+        } else {
+            tasks.put(task.getId(), task);
+        }
     }
 
     @Override
     public void createEpic(Epic epic) {
-        super.createEpic(epic);
-        save();
+        if (epic.getId() == 0) {
+            super.createEpic(epic);
+            save();
+        } else {
+            epics.put(epic.getId(), epic);
+        }
     }
 
     @Override
     public void createSubtask(SubTask subtask, int epicId) {
-        super.createSubtask(subtask, epicId);
-        save();
+        if (subtask.getId() == 0) {
+            super.createSubtask(subtask, epicId);
+            save();
+        } else {
+            subtasks.put(subtask.getId(), subtask);
+        }
     }
 
     @Override

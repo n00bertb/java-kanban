@@ -1,6 +1,6 @@
 id,type,name,status,description,epic
-1,TASK,Task 1,NEW,Description of task 1,
-666,TASK,Task 2,IN_PROGRESS,Description of task 2,
-2,EPIC,Epic 1,NEW,Description of epic 1,
-3,SUBTASK,Subtask 1,NEW,Description of subtask 1,2
-444,SUBTASK,Subtask 2,DONE,Description of subtask 2,2
+1,TASK,Task 1,NEW,Description of task 1,null
+2,TASK,Task 2,IN_PROGRESS,Description of task 2,null
+3,EPIC,Epic 1,NEW,Description of epic 1,null
+4,SUBTASK,Subtask 1,NEW,Description of subtask 1,3
+5,SUBTASK,Subtask 2,DONE,Description of subtask 2,3

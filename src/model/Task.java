@@ -20,11 +20,11 @@ public class Task {
         this.status = status;
     }
 
-    public Task(String title, String description, int id, Status status) {
+    public Task(String title, String text, int id, Status status) {
         this.name = title;
-        this.description = description;
-        this.id = id;
+        this.description = text;
         this.status = status;
+        this.id = id;
     }
 
     public String getName() {

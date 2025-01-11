@@ -9,6 +9,10 @@ public class Epic extends Task {
         super(name, description, Status.NEW);
     }
 
+    public Epic(String name, String description, Status status) {
+        super(name, description, status);
+    }
+
     public Epic(String name, String description, int id, Status status) {
         super(name, description, id, status);
     }

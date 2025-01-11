@@ -13,20 +13,24 @@ public class Main {
         System.out.println("тут у нас ид таски при создании без его указания " + buyFood.getId());
         manager.createTask(buyFood);
         System.out.println(manager.getTasks() + "\n");
+        System.out.println("Ид созданной таски " + buyFood.getId() + "\n");
 
         System.out.println("Обновляем ранее созданную Таску!");
         Task buyFoodToUpdate = manager.getTaskByID(1);
         manager.getTaskByID(11);
         buyFoodToUpdate.setStatus(Status.IN_PROGRESS);
         buyFoodToUpdate.setDescription("Можно и без яблок");
+        buyFoodToUpdate.setId(11);
         manager.updateTask(buyFoodToUpdate);
         System.out.println(manager.getTasks() + "\n");
+        System.out.println(manager.getTaskByID(11));
+
 
         System.out.println("Создаем новый Эпик");
         Epic compliteSprintFiveFinalTask = new Epic("Сдать задание пятого спринта", "Нужно успеть до конца каникул");
         System.out.println("тут у нас нет ид эпика при создании без его указания " + compliteSprintFiveFinalTask.getId());
 
-        Epic compliteSprintFiveFinalTask2 = new Epic("Сдать задание пятого спринта", "Нужно успеть до конца каникул", 777, Status.NEW);
+        Epic compliteSprintFiveFinalTask2 = new Epic("Сдать задание пятого спринта", "Нужно успеть до конца каникул", Status.NEW);
         System.out.println("тут у нас есть ид эпика при создании без его указания " + compliteSprintFiveFinalTask2.getId());
 
         manager.createEpic(compliteSprintFiveFinalTask);

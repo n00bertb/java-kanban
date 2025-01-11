@@ -11,9 +11,9 @@ import java.util.Set;
 
 public class InMemoryTaskManager implements TaskManager {
     private final HistoryManager historyManager = Managers.getDefaultHistory();
-    private final HashMap<Integer, Epic> epics = new HashMap<>();
-    private final HashMap<Integer, SubTask> subtasks = new HashMap<>();
-    private final HashMap<Integer, Task> tasks = new HashMap<>();
+    protected final HashMap<Integer, Epic> epics = new HashMap<>();
+    protected final HashMap<Integer, SubTask> subtasks = new HashMap<>();
+    protected final HashMap<Integer, Task> tasks = new HashMap<>();
     private int taskId = 0;
 
     public int getNewTaskId() {
@@ -24,45 +24,29 @@ public class InMemoryTaskManager implements TaskManager {
     //создаем сущности
     @Override
     public void createEpic(Epic epic) {
-        if (epic.getId() == 0) { //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
-            int id = getNewTaskId();
-            epic.setId(id);
-            epics.put(id, epic);
-        } else {
-            epics.put(epic.getId(), epic);
-        }
+        int id = getNewTaskId();
+        epic.setId(id);
+        epics.put(id, epic);
     }
 
     @Override
     public void createSubtask(SubTask subtask, int epicId) {
-        if (subtask.getId() == 0) { //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
-            if (epics.containsKey(epicId)) {
-                int id = getNewTaskId();
-                subtask.setId(id);
-                subtasks.put(id, subtask);
-                epics.get(epicId).addSubtask(id); // Добавляем id подзадачи в эпик
-                updateEpicStatus(epics.get(epicId)); // И обновляем статус
-            } else {
-                System.out.println("Эпик с таким ID не существует");
-            }
-        } else {
-            subtasks.put(subtask.getId(), subtask);
-            epics.get(epicId).addSubtask(subtask.getId()); // Добавляем id подзадачи в эпик
+        if (epics.containsKey(epicId)) {
+            int id = getNewTaskId();
+            subtask.setId(id);
+            subtasks.put(id, subtask);
+            epics.get(epicId).addSubtask(id); // Добавляем id подзадачи в эпик
             updateEpicStatus(epics.get(epicId)); // И обновляем статус
+        } else {
+            System.out.println("Эпик с таким ID не существует");
         }
-
-
     }
 
     @Override
     public void createTask(Task task) {
-        if (task.getId() == 0) { //тут проверяем какой конструктор использовать, нужно для чтения списка задач из файлов
-            int id = getNewTaskId();
-            task.setId(id);
-            tasks.put(id, task);
-        } else {
-            tasks.put(task.getId(), task);
-        }
+        int id = getNewTaskId();
+        task.setId(id);
+        tasks.put(id, task);
     }
 
     //удаление списка всех сущностей

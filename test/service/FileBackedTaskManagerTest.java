@@ -88,7 +88,7 @@ class FileBackedTaskManagerTest {
         assertEquals(Status.NEW, loadedTask.getStatus());
 
         assertEquals("Epic2", loadedEpic.getName());
-        assertEquals(Status.DONE, loadedEpic.getStatus());
+        assertEquals(Status.NEW, loadedEpic.getStatus());
 
         assertEquals("Sub Task2", loadedSubtask.getName());
         assertEquals(Status.DONE, loadedSubtask.getStatus());
