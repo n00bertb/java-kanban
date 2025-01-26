@@ -20,8 +20,19 @@ public class Task {
         this.status = status;
     }
 
+    public Task(String title, String text, int id, Status status) {
+        this.name = title;
+        this.description = text;
+        this.status = status;
+        this.id = id;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public TaskType getType() {
+        return TaskType.TASK;
     }
 
     public void setName(String name) {
