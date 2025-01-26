@@ -9,7 +9,7 @@ public class SubTask extends Task {
     private final int epicID;
 
     public SubTask(String name, String description, Duration duration, LocalDateTime startTime, int epicID) {
-        super(name, description,duration, startTime);
+        super(name, description, duration, startTime);
         this.epicID = epicID;
     }
 
@@ -52,6 +52,7 @@ public class SubTask extends Task {
         SubTask subtask = (SubTask) o;
         return epicID == subtask.epicID;
     }
+
     @Override
     public int hashCode() {
         return 31 * super.hashCode() + epicID;

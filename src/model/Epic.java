@@ -24,7 +24,6 @@ public class Epic extends Task {
     }
 
 
-
     public void addSubtask(int idSubtask) {
         subTaskIds.add(idSubtask);
     }
@@ -59,6 +58,7 @@ public class Epic extends Task {
         Epic epic = (Epic) o;
         return getId() == epic.getId();
     }
+
     @Override
     public int hashCode() {
         return Integer.hashCode(getId());
