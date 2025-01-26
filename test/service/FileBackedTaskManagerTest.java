@@ -7,6 +7,8 @@ import model.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -35,9 +37,11 @@ class FileBackedTaskManagerTest {
     void shouldSaveAndLoadMultipleTasks() {
         FileBackedTaskManager manager = new FileBackedTaskManager(tempFile);
 
-        Task task1 = new Task("Task 1", "Description 1");
+        Task task1 = new Task("Task 1", "Description 1", Duration.ofMinutes(120),
+                LocalDateTime.now());
         Epic epic1 = new Epic("Epic 1", "Description 2");
-        SubTask subtask1 = new SubTask("Subtask 1", "Description 3", 2);
+        SubTask subtask1 = new SubTask("Subtask 1", "Description 3",Duration.ofMinutes(60),
+                LocalDateTime.now().plusHours(6), 2);
 
         manager.createTask(task1);
         manager.createEpic(epic1);
@@ -64,10 +68,12 @@ class FileBackedTaskManagerTest {
     void shouldLoadManagerFromFileWithMultipleTasks() throws IOException {
         // Создаем и записываем несколько задач в файл
         String csvContent = String.join("\n",
-                "id,type,name,status,description,epic",
-                "1,TASK,Task1,NEW,Description task1,",
-                "2,EPIC,Epic2,NEW,Description epic2,",
-                "3,SUBTASK,Sub Task2,DONE,Description sub task3,2"
+                "id,type,name,status,description,duration,startTime,epic",
+                "1,TASK,Task 1,NEW,Description of task 1,30,2023-01-01T10:00,",
+                "2,TASK,Task 2,IN_PROGRESS,Description of task 2,45,2023-01-01T12:30,",
+                "3,EPIC,Epic 1,IN_PROGRESS,Description of epic 1,,,,",
+                "4,SUBTASK,Subtask 1,NEW,Description of subtask 1,20,2023-01-01T11:00,3",
+                "5,SUBTASK,Subtask 2,DONE,Description of subtask 2,25,2023-01-01T11:30,3"
         );
 
         Files.writeString(tempFile.toPath(), csvContent);
@@ -75,23 +81,34 @@ class FileBackedTaskManagerTest {
         // Загружаем менеджер из файла
         FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(tempFile);
 
-        // Проверяем загруженные данные
-        Task loadedTask = loadedManager.getTaskByID(1);
-        Epic loadedEpic = loadedManager.getEpicByID(2);
-        SubTask loadedSubtask = loadedManager.getSubtaskByID(3);
-
-        assertNotNull(loadedTask, "Задача должна быть загружена.");
-        assertNotNull(loadedEpic, "Эпик должен быть загружен.");
-        assertNotNull(loadedSubtask, "Подзадача должна быть загружена.");
-
-        assertEquals("Task1", loadedTask.getName());
-        assertEquals(Status.NEW, loadedTask.getStatus());
-
-        assertEquals("Epic2", loadedEpic.getName());
-        assertEquals(Status.NEW, loadedEpic.getStatus());
-
-        assertEquals("Sub Task2", loadedSubtask.getName());
-        assertEquals(Status.DONE, loadedSubtask.getStatus());
-        assertEquals(2, loadedSubtask.getEpicID(), "ID эпика у подзадачи должен совпадать.");
+        Task loadedTask1 = loadedManager.getTaskByID(1);
+        Task loadedTask2 = loadedManager.getTaskByID(2);
+        Epic loadedEpic = loadedManager.getEpicByID(3);
+        SubTask loadedSubtask1 = loadedManager.getSubtaskByID(4);
+        SubTask loadedSubtask2 = loadedManager.getSubtaskByID(5);
+        // Проверяем, что задачи, эпики и подзадачи были загружены
+        assertNotNull(loadedTask1, "Task 1 должен быть загружен.");
+        assertNotNull(loadedTask2, "Task 2 должен быть загружен.");
+        assertNotNull(loadedEpic, "Epic должен быть загружен.");
+        assertNotNull(loadedSubtask1, "Subtask 1 должен быть загружен.");
+        assertNotNull(loadedSubtask2, "Subtask 2 должен быть загружен.");
+        // Проверяем, что значения совпадают с ожидаемыми
+        assertEquals("Task 1", loadedTask1.getName(), "Название Task 1 должно совпадать.");
+        assertEquals(Status.NEW, loadedTask1.getStatus(), "Статус Task 1 должен быть NEW.");
+        assertEquals("Description of task 1", loadedTask1.getDescription(), "Описание Task 1 должно совпадать.");
+        assertEquals("Task 2", loadedTask2.getName(), "Название Task 2 должно совпадать.");
+        assertEquals(Status.IN_PROGRESS, loadedTask2.getStatus(), "Статус Task 2 должен быть IN_PROGRESS.");
+        assertEquals("Description of task 2", loadedTask2.getDescription(), "Описание Task 2 должно совпадать.");
+        assertEquals("Epic 1", loadedEpic.getName(), "Название Epic должно совпадать.");
+        assertEquals(Status.IN_PROGRESS, loadedEpic.getStatus(), "Статус Epic должен быть IN_PROGRESS.");
+        assertEquals("Description of epic 1", loadedEpic.getDescription(), "Описание Epic должно совпадать.");
+        assertEquals("Subtask 1", loadedSubtask1.getName(), "Название Subtask 1 должно совпадать.");
+        assertEquals(Status.NEW, loadedSubtask1.getStatus(), "Статус Subtask 1 должен быть NEW.");
+        assertEquals("Description of subtask 1", loadedSubtask1.getDescription(), "Описание Subtask 1 должно совпадать.");
+        assertEquals(3, loadedSubtask1.getEpicID(), "EpicId для Subtask 1 должен быть равен 3.");
+        assertEquals("Subtask 2", loadedSubtask2.getName(), "Название Subtask 2 должно совпадать.");
+        assertEquals(Status.DONE, loadedSubtask2.getStatus(), "Статус Subtask 2 должен быть DONE.");
+        assertEquals("Description of subtask 2", loadedSubtask2.getDescription(), "Описание Subtask 2 должно совпадать.");
+        assertEquals(3, loadedSubtask2.getEpicID(), "EpicId для Subtask 2 должен быть равен 3.");
     }
 }

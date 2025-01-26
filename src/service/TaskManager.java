@@ -48,4 +48,7 @@ public interface TaskManager {
     void updateTask(Task task);
 
     List<Task> getHistory();
+
+    // Новый метод: задачи в порядке приоритета
+    List<Task> getPrioritizedTasks();
 }
