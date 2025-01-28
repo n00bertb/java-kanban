@@ -123,7 +123,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         if (type == TaskType.TASK) {
             return new Task(name, description, id, status, duration, startTime);
         } else if (type == TaskType.EPIC) {
-            return new Epic(name, description, id, status);
+            return new Epic(name, description, id, status, duration, startTime);
         } else if (type == TaskType.SUBTASK) {
             if (fields.length < 8 || fields[7].isEmpty()) {
                 throw new IllegalArgumentException("Некорректная строка CSV для Subtask: " + value);

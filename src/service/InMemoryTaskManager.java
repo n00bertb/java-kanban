@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Set;
 
 import java.time.LocalDateTime;
+import java.time.Duration;
 import java.util.*;
 import java.util.Collection;
 
@@ -253,6 +254,8 @@ public class InMemoryTaskManager implements TaskManager {
         Collection<Integer> tasksId = epic.getSubtaskList();
         if (tasksId.isEmpty()) {
             epic.setStatus(Status.NEW);
+            epic.setDuration(Duration.ZERO);
+            epic.setStartTime(null);
         } else if (tasksId.stream()
                 .map(subtasks::get)
                 .anyMatch(
@@ -261,6 +264,23 @@ public class InMemoryTaskManager implements TaskManager {
         } else {
             epic.setStatus(Status.DONE);
         }
+
+        Duration calculatedDuration = Duration.ZERO;
+        LocalDateTime calculatedStartTime = null;
+
+        for (int subtaskID : epic.getSubtaskList()) {
+            // Рассчитываем duration
+            if (subtasks.get(subtaskID).getDuration() != null) {
+                calculatedDuration = calculatedDuration.plus(subtasks.get(subtaskID).getDuration());
+            }
+            // Рассчитываем startTime
+            if (calculatedStartTime == null || (subtasks.get(subtaskID).getStartTime() != null && subtasks.get(subtaskID).getStartTime().isBefore(calculatedStartTime))) {
+                calculatedStartTime = subtasks.get(subtaskID).getStartTime();
+            }
+        }
+        //Обновляем время начала эпика и его продолжительность
+        epic.setDuration(calculatedDuration);
+        epic.setStartTime(calculatedStartTime);
     }
 
 
