@@ -92,7 +92,7 @@ public class Main {
 
         // Удаляем одну из задач и один из эпиков
         manager.deleteTask(task1.getId());
-        manager.deleteEpic(epic2.getId());
+        manager.deleteSubtask(subtask3.getId());
 
         // Проверяем после удаления
         System.out.println("\nВсе задачи после удаления:");

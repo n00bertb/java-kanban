@@ -49,6 +49,9 @@ public interface TaskManager {
 
     List<Task> getHistory();
 
+    // Получаем все подзадачи Эпика
+    List<SubTask> getSubtasksOfEpic(int epicId);
+
     // Новый метод: задачи в порядке приоритета
     List<Task> getPrioritizedTasks();
 }
