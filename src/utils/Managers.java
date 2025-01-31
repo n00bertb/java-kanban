@@ -18,6 +18,7 @@ public class Managers {
     }
 
     private static Gson gson;
+
     public static Gson getGson() {
         if (gson == null) {
             gson = new GsonBuilder()

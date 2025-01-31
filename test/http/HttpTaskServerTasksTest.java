@@ -17,6 +17,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class HttpTaskServerTasksTest {
+
     TaskManager manager;
     HttpTaskServer taskServer;
     Gson gson;
