@@ -45,7 +45,7 @@ class FileBackedTaskManagerTest {
 
         manager.createTask(task1);
         manager.createEpic(epic1);
-        manager.createSubtask(subtask1,epic1.getId());
+        manager.createSubtask(subtask1);
 
         manager.save();
 
