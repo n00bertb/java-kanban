@@ -1,7 +1,7 @@
 package service;
 
 import model.*;
-import utils.Managers;
+import utils.*;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -58,19 +58,22 @@ public class InMemoryTaskManager implements TaskManager {
         int id = getNewTaskId();
         epic.setId(id);
         epics.put(id, epic);
+        epic.setSubtaskList();
     }
 
     @Override
-    public void createSubtask(SubTask subtask, int epicId) {
-        int id = getNewTaskId();
-        subtask.setId(id);
+    public void createSubtask(SubTask subtask) {
+        int epicId = subtask.getEpicID();
         if (epics.containsKey(epicId) && isValidTask(subtask)) {
+            int id = getNewTaskId();
+            subtask.setId(id);
             subtasks.put(id, subtask);
+            Epic epic = epics.get(epicId);
+            epic.addSubtask(subtask.getId());
+            updateEpicStatus(epics.get(epicId));
             if (subtask.getStartTime() != null) {
                 prioritizedTasks.add(subtask);
             }
-            epics.get(epicId).addSubtask(id);
-            updateEpicStatus(epics.get(epicId));
         } else {
             throw new IllegalArgumentException("Подзадача пересекается с другой задачей по времени выполнения.");
         }

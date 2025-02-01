@@ -2,12 +2,13 @@ package http;
 
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpServer;
 import utils.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public abstract class BaseHttpHandler implements com.sun.net.httpserver.HttpHandler {
-    protected final Gson gson = Managers.getGson();
+    protected final Gson gson = HttpTaskServer.getGson();
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
-    private ArrayList<Integer> subTaskIds = new ArrayList<>();
 
+    ArrayList<Integer> subTaskIds = new ArrayList<>();
 
     public Epic(String name, String description) {
         super(name, description, Status.NEW);
@@ -44,6 +44,10 @@ public class Epic extends Task {
 
     public ArrayList<Integer> getSubtaskList() {
         return subTaskIds;
+    }
+
+    public void setSubtaskList() {
+        this.subTaskIds = new ArrayList<>();
     }
 
     @Override

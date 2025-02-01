@@ -8,7 +8,7 @@ public interface TaskManager {
     //создаем сущности
     void createEpic(Epic epic);
 
-    void createSubtask(SubTask subtask, int epicId);
+    void createSubtask(SubTask subtask);
 
     void createTask(Task task);
 

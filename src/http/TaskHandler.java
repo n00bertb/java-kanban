@@ -37,6 +37,7 @@ public class TaskHandler extends BaseHttpHandler {
             String body = readRequestBody(exchange);
             Task task = gson.fromJson(body, Task.class);
             if (task.getId() == 0) {
+                System.out.println("Выводим сабтаску из апи " + task);
                 taskManager.createTask(task);
                 sendText(exchange, gson.toJson(task), 201);
             } else {

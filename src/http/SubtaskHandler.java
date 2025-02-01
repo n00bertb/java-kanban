@@ -37,7 +37,7 @@ public class SubtaskHandler extends BaseHttpHandler {
             String body = readRequestBody(exchange);
             SubTask subtask = gson.fromJson(body, SubTask.class);
             if (subtask.getId() == 0) {
-                taskManager.createSubtask(subtask, subtask.getEpicID());
+                taskManager.createSubtask(subtask);
                 sendText(exchange, gson.toJson(subtask), 201);
             } else {
                 SubTask existing = taskManager.getSubtaskByID(subtask.getId());

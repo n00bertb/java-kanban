@@ -50,7 +50,7 @@ class InMemoryTaskManagerTest {
                 epic.getId()
         );
 
-        taskManager.createSubtask(subtask,epic.getId());
+        taskManager.createSubtask(subtask);
         taskManager.deleteSubtask(subtask.getId());
 
 
@@ -71,7 +71,7 @@ class InMemoryTaskManagerTest {
                 LocalDateTime.now().plusHours(2),
                 epic.getId()
         );
-        taskManager.createSubtask(subtask,epic.getId());
+        taskManager.createSubtask(subtask);
         taskManager.deleteSubtask(subtask.getId());
 
         assertFalse(taskManager.getSubtasks().contains(subtask), "Удалённая подзадача не должна присутствовать в списке всех подзадач.");
@@ -99,8 +99,8 @@ class InMemoryTaskManagerTest {
                 LocalDateTime.now().plusHours(4),
                 epic.getId()
         );
-        taskManager.createSubtask(subtask1,epic.getId());
-        taskManager.createSubtask(subtask2,epic.getId());
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
 
         subtask1.setStatus(Status.DONE);
         taskManager.updateSubtask(subtask1);

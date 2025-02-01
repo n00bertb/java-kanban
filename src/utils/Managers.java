@@ -16,16 +16,4 @@ public class Managers {
     public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
     }
-
-    private static Gson gson;
-
-    public static Gson getGson() {
-        if (gson == null) {
-            gson = new GsonBuilder()
-                    .registerTypeAdapter(Duration.class, new DurationAdapter())
-                    .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
-                    .create();
-        }
-        return gson;
-    }
 }
