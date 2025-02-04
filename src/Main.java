@@ -50,8 +50,8 @@ public class Main {
                 LocalDateTime.now().plusHours(7),
                 epic1.getId() // Не пересекается с subtask1
         );
-        manager.createSubtask(subtask1, 3);
-        manager.createSubtask(subtask2, 3);
+        manager.createSubtask(subtask1);
+        manager.createSubtask(subtask2);
 
         // Создаём эпик с одной подзадачей
         Epic epic2 = new Epic(
@@ -67,7 +67,7 @@ public class Main {
                 LocalDateTime.now().plusDays(1),
                 epic2.getId() // Не пересекается с другими задачами
         );
-        manager.createSubtask(subtask3, 6);
+        manager.createSubtask(subtask3);
 
         // Выводим списки задач, эпиков и подзадач
         System.out.println("\nВсе задачи:");
@@ -92,7 +92,7 @@ public class Main {
 
         // Удаляем одну из задач и один из эпиков
         manager.deleteTask(task1.getId());
-        manager.deleteEpic(epic2.getId());
+        manager.deleteSubtask(subtask3.getId());
 
         // Проверяем после удаления
         System.out.println("\nВсе задачи после удаления:");

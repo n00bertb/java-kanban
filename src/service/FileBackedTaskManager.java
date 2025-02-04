@@ -36,8 +36,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         SubTask subtask1 = new SubTask("Subtask 1", "Description of subtask 1", Duration.ofMinutes(120), LocalDateTime.of(2025, 1, 1, 12, 0), epic1.getId());
         SubTask subtask2 = new SubTask("Subtask 2", "Description of subtask 2", Status.DONE, Duration.ofMinutes(90), LocalDateTime.of(2025, 1, 1, 14, 0), epic1.getId());
 
-        manager.createSubtask(subtask1, epic1.getId());
-        manager.createSubtask(subtask2, epic1.getId());
+        manager.createSubtask(subtask1);
+        manager.createSubtask(subtask2);
 
         System.out.println("Данные начального менеджера:");
         System.out.println("Задачи: " + manager.getTasks());
@@ -144,7 +144,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 if (task.getType() == TaskType.EPIC) {
                     manager.createEpic((Epic) task);
                 } else if (task.getType() == TaskType.SUBTASK) {
-                    manager.createSubtask((SubTask) task, ((SubTask) task).getEpicID());
+                    manager.createSubtask((SubTask) task);
                 } else {
                     manager.createTask(task);
                 }
@@ -177,9 +177,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void createSubtask(SubTask subtask, int epicId) {
+    public void createSubtask(SubTask subtask) {
         if (subtask.getId() == 0) {
-            super.createSubtask(subtask, epicId);
+            super.createSubtask(subtask);
             save();
         } else {
             subtasks.put(subtask.getId(), subtask);

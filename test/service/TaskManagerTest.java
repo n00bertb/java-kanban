@@ -28,8 +28,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
                 Duration.ofMinutes(30), fixedTime, epic.getId());
         SubTask subtask2 = new SubTask("Subtask 2", "Description", Status.NEW,
                 Duration.ofMinutes(30), fixedTime.plusMinutes(40), epic.getId());
-        taskManager.createSubtask(subtask1, epic.getId());
-        taskManager.createSubtask(subtask2, epic.getId());
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
         assertEquals(Status.NEW, epic.getStatus(), "Статус эпика должен быть NEW, если все подзадачи NEW.");
         assertEquals(Duration.ofMinutes(60), epic.getDuration(), "Длительность эпика должна быть суммой длительностей подзадач.");
     }
@@ -43,8 +43,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
                 Duration.ofMinutes(30), fixedTime, epic.getId());
         SubTask subtask2 = new SubTask("Subtask 2", "Description", Status.DONE,
                 Duration.ofMinutes(30), fixedTime.plusMinutes(40), epic.getId());
-        taskManager.createSubtask(subtask1, epic.getId());
-        taskManager.createSubtask(subtask2, epic.getId());
+        taskManager.createSubtask(subtask1);
+        taskManager.createSubtask(subtask2);
         assertEquals(Status.DONE, epic.getStatus(), "Статус эпика должен быть DONE, если все подзадачи DONE.");
         assertEquals(Duration.ofMinutes(60), epic.getDuration(), "Длительность эпика должна быть суммой длительностей подзадач.");
     }
@@ -85,7 +85,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createEpic(epic);
         SubTask subtask1 = new SubTask("Subtask 1", "Description", Status.NEW,
                 Duration.ofMinutes(30), LocalDateTime.of(2025, 1, 1, 10, 0), epic.getId());
-        taskManager.createSubtask(subtask1, epic.getId());
+        taskManager.createSubtask(subtask1);
         taskManager.deleteSubtask(subtask1.getId());
         assertTrue(epic.getSubtaskList().isEmpty(), "После удаления подзадачи она должна быть удалена из эпика.");
     }

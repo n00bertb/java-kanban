@@ -26,8 +26,8 @@ class SubTaskTest {
                 LocalDateTime.now(), epic.getId());
         subtask2 = new SubTask("Subtask 2", "Description subtask 2", Duration.ofMinutes(60),
                 LocalDateTime.now().plusHours(6), epic.getId());
-        manager.createSubtask(subtask1,epic.getId());
-        manager.createSubtask(subtask2,epic.getId());
+        manager.createSubtask(subtask1);
+        manager.createSubtask(subtask2);
     }
 
     @Test

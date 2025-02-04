@@ -8,7 +8,7 @@ public interface TaskManager {
     //создаем сущности
     void createEpic(Epic epic);
 
-    void createSubtask(SubTask subtask, int epicId);
+    void createSubtask(SubTask subtask);
 
     void createTask(Task task);
 
@@ -48,6 +48,9 @@ public interface TaskManager {
     void updateTask(Task task);
 
     List<Task> getHistory();
+
+    // Получаем все подзадачи Эпика
+    List<SubTask> getSubtasksOfEpic(int epicId);
 
     // Новый метод: задачи в порядке приоритета
     List<Task> getPrioritizedTasks();
